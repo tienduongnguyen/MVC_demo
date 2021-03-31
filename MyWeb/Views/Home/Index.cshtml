@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_adminLTE.cshtml";
+}
+
+@{
+    var x = 1;
+    var y = 1;
+    var z = x + y;
+}
+
+@functions {
+    int sum(int a,int b)
+    {
+        return a + b;
+    }
+} 
+
+<h1>Có @ApplicationInstance.Application["Views"] đã vào trang</h1>
+<h1>z = @z</h1>
+<h1>@x + @y = @sum(x,y)</h1>
