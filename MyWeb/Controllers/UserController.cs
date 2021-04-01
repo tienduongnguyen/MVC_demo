@@ -24,7 +24,7 @@ namespace MyWeb.Controllers
             if (user.Equals("admin") && pwd.Equals("1234")) 
             {
                 Session["username"] = user;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Student");
             }
 
             return RedirectToAction("Login", "User");
