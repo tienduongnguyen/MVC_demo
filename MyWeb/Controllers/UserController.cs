@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MyWeb.Models;
+using System.Data.SqlClient;
 
 namespace MyWeb.Controllers
 {
     public class UserController : Controller
     {
+        SqlConnection con = new SqlConnection();
+        SqlCommand com = new SqlCommand();
+        SqlDataReader dr;
+
+        private void connectionString()
+        {
+            con.ConnectionString = @"Data Source=LAPTOP-CMICOPQI\SQLEXPRESS;Initial Catalog=Account;Integrated Security=True";
+        }
+
         // GET: User
         public ActionResult Index()
         {
@@ -19,15 +30,24 @@ namespace MyWeb.Controllers
             return View();
         }
 
-        public ActionResult LoginAction(string user, string pwd)
+        [HttpPost]
+        public ActionResult LoginAction(User us)
         {
-            if (user.Equals("admin") && pwd.Equals("1234")) 
+            connectionString();
+            con.Open();
+            com.Connection = con;
+            com.CommandText = "select * from USERLOGIN where name = '" + us.username + "' and password = '" + us.password + "'";
+            dr = com.ExecuteReader();
+            if (dr.Read())
             {
-                Session["username"] = user;
+                con.Close();
                 return RedirectToAction("Index", "Student");
             }
-
-            return RedirectToAction("Login", "User");
+            else
+            {
+                con.Close();
+                return RedirectToAction("Login", "User");
+            }
         }
     }
 }
